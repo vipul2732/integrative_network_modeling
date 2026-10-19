@@ -1,6 +1,6 @@
 # Integrative Network Modeling (INM)
 
-INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/). A consensus network is the set of edges whose posterior frequency exceeds a chosen threshold (0.6 in the accompanying manuscript).
+INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/).
 
 This repository is the Python implementation used for:
 
@@ -8,7 +8,6 @@ This repository is the Python implementation used for:
 
 The HIV-1 CRL5 AP-MS tables, analysis scripts, and deposited figures and tables are in the companion repository [salilab/inm-hiv-crl5](https://github.com/salilab/inm-hiv-crl5).
 
-An earlier INM library is already published at [salilab/inm](https://github.com/salilab/inm). This repository is the NumPyro implementation used for the manuscript and does not replace that library.
 
 ## Requirements
 
