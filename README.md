@@ -1,12 +1,6 @@
 # Integrative Network Modeling (INM)
 
-INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/).
-
-This repository is the Python implementation used for:
-
-> Kumar V, Palar A, Krogan NJ, Echeverria I, Sali A. Modeling networks of direct protein–protein contacts based on affinity purification–mass spectrometry data.
-
-The HIV-1 CRL5 AP-MS tables, analysis scripts, and deposited figures and tables are in the companion repository [salilab/inm-hiv-crl5](https://github.com/salilab/inm-hiv-crl5).
+INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/). A consensus network keeps edges whose posterior frequency exceeds a chosen threshold (0.6 by default).
 
 
 ## Requirements
@@ -52,7 +46,7 @@ Provide an Excel workbook (`.xlsx`). Each sheet is one AP-MS table with at least
 | `Spec` | Spectral counts for the replicates, separated by `\|` (for example `10\|15\|12`) |
 | `ctrlCounts` | Control spectral counts, same separator |
 
-Rows with a missing or zero SAINT score are dropped. The manuscript runs read the first sheet only (`sheet_nums: 1`).
+Rows with a missing or zero SAINT score are dropped. `sheet_nums` sets how many sheets to read, starting at the first sheet. `sheet_nums: 1` reads only that sheet.
 
 ## Run a dataset
 
@@ -91,11 +85,11 @@ python run_multiple_seeds.py \
   --cpu
 ```
 
-The smoke test is not a manuscript run. Manuscript sampling uses 1,000 warmup steps and 10,000 sampling steps.
+The smoke test uses 100 warmup steps and 500 samples. A standard run uses the config values, 1,000 warmup steps and 10,000 samples.
 
 ### Several chains
 
-The manuscript uses independent chains with seeds 13, 42, and 71. Those three seeds are the default when `--n-runs 3` is set.
+Each chain should use its own seed. If you pass `--n-runs 3` and do not pass `--seeds`, the seeds are 13, 42, and 71. Any other seeds can be set with `--seeds`.
 
 ```bash
 python run_multiple_seeds.py \
@@ -121,18 +115,18 @@ python extract_all_pairs.py \
 
 `all_pairs.tsv` has columns `Protein1`, `Protein2`, and `Probability`.
 
-## Manuscript model settings
+## Default settings
 
-These are the settings in `examples/example_config.json` and in the HIV-1 CRL5 configs:
+`examples/example_config.json` uses these values:
 
 | Setting | Value |
 | --- | --- |
 | Model | `model23_n` |
 | Warmup / samples | 1,000 / 10,000 per chain |
-| Seeds | 13, 42, 71 |
+| Example seeds | 13, 42, 71 |
 | SAINT threshold ladder | 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 |
 | Indirect SAINT | geometric mean of co-purified bait–prey scores, kept when both scores are at least 0.3 |
-| Proteins modeled | top 80 by combined SAINT and multi-bait score (`max_proteins`, default 80). In the CRL5 data, 77 proteins passed the SAINT filter, giving 2,926 pairs |
+| Proteins modeled | top `max_proteins` by combined SAINT and multi-bait score (default 80) |
 | Consensus edge | posterior frequency at least 0.6 |
 
 The score has five terms: AP-MS profile cosine similarity, a SAINT-derived interaction term, a composite-connectivity restraint, an edge-density prior, and a node-degree prior. Leave-one-term-out models are selected by the model name:
@@ -160,7 +154,7 @@ The first JAX compilation for a new number of proteins is slow. Later chains wit
 
 ## Model assessment helpers
 
-These scripts are part of the method and are also used by the manuscript analyses:
+These scripts assess a finished run:
 
 - `merge_and_analyze_convergence.py` — pool chains and plot sampling diagnostics
 - `sampling_precision_mixing.py` and `compute_post_sampling_imp_metrics.py` — sampling precision and model precision on the binary networks
@@ -170,7 +164,9 @@ These scripts are part of the method and are also used by the manuscript analyse
 
 ## Citation
 
-If you use this code, please cite the INM manuscript and NumPyro.
+If you use this code, please cite NumPyro and:
+
+> Kumar V, Palar A, Krogan NJ, Echeverria I, Sali A. Modeling networks of direct protein–protein contacts based on affinity purification–mass spectrometry data.
 
 ## License
 
