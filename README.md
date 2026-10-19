@@ -1,6 +1,6 @@
 # Integrative Network Modeling (INM)
 
-INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/). A consensus network keeps edges whose posterior frequency exceeds a chosen threshold (0.6 by default).
+INM infers a network of direct protein–protein contacts from affinity purification–mass spectrometry (AP-MS) data. Each network is an undirected graph on the proteins in the experiment. A continuous score ranks candidate networks by agreement with AP-MS spectral profiles, SAINT confidence scores, co-purification (composite) connectivity, and statistical priors on edge density and node degree. Alternative networks are sampled with the No-U-Turn Sampler (NUTS) in [NumPyro](https://num.pyro.ai/).
 
 
 ## Requirements
