@@ -1,0 +1,57 @@
+{
+  "data": {
+    "input_file": "your_apms_table.xlsx",
+    "prey_column": "PreyGene",
+    "filter": "all",
+    "enforce_bait_remapping": true,
+    "sheet_nums": 1,
+    "selected_sheet_indices": [
+      0
+    ]
+  },
+  "model": {
+    "name": "model23_n",
+    "rseed": 13,
+    "model_id": 0
+  },
+  "sampling": {
+    "num_warmup": 1000,
+    "num_samples": 10000,
+    "thinning": 1,
+    "target_accept_prob": 0.8,
+    "progress_bar": true
+  },
+  "hyperparameters": {
+    "alpha": 0.02,
+    "beta": 0.1,
+    "thresholds": [
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "n_null_bins": 80,
+    "disconnectivity_distance": 10,
+    "max_distance": 11,
+    "use_indirect_saint": true,
+    "indirect_saint_threshold": 0.3,
+    "max_proteins": 80
+  },
+  "output": {
+    "output_dir": "../results/example_run",
+    "save_warmup": true,
+    "include_extra_fields": true
+  },
+  "figures": {
+    "generate": false
+  },
+  "imp": {
+    "generate": false,
+    "threshold": 0.7,
+    "benchmark": false,
+    "pdb_dir": null,
+    "corum_file": null
+  }
+}
